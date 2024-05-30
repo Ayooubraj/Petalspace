@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { toast } from 'react-toastify';
 import { loginUserApi } from "../../api/api";
 import './LoginPage.css'; // Import CSS file
+import logo from '../../assets/images/logo2.png'; // Import the image
+
 
 
 const Loginpage = () => {
@@ -53,7 +55,11 @@ const Loginpage = () => {
 
     return (
         <div className="login-container">
+                        
+
+
             <form className='login-form'>
+            <img src={logo} alt="Logo" className="login-logo" /> 
                 <h1>Login</h1>
                 <input onChange={(e) => setEmail(e.target.value)} type="text" className="form-control" placeholder="Enter your Email" />
                 {emailError && <p className="text-danger">{emailError}</p>}

@@ -1,5 +1,5 @@
 .login-container {   
-        background-image: url('https://images.unsplash.com/photo-1648192307859-138ff3743336?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-image: url('https://images.unsplash.com/photo-1535242208474-9a2793260ca8?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
         background-size: cover;
         background-position: center;
         height: 100vh;
@@ -8,14 +8,17 @@
         align-items: center;
         flex-direction: column;
         padding: 20px;
+        color: white;
     }
 
 .login-form {
     width: 500px;
-    background-color: rgba(7, 75, 7, 0.7);
+    background-color: rgba(0, 0, 0, 0.378);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+    
     
 }
 
