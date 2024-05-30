@@ -3,7 +3,10 @@ import { toast } from 'react-toastify';
 import { loginUserApi } from "../../api/api";
 import './LoginPage.css'; // Import CSS file
 
+
 const Loginpage = () => {
+
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -51,7 +54,7 @@ const Loginpage = () => {
     return (
         <div className="login-container">
             <form className='login-form'>
-                <h1>Login to your account</h1>
+                <h1>Login</h1>
                 <input onChange={(e) => setEmail(e.target.value)} type="text" className="form-control" placeholder="Enter your Email" />
                 {emailError && <p className="text-danger">{emailError}</p>}
                 <input onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" placeholder="Enter Your Password" />
@@ -61,5 +64,6 @@ const Loginpage = () => {
         </div>
     );
 }
+
 
 export default Loginpage;

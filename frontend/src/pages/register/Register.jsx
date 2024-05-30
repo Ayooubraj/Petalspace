@@ -1,182 +1,142 @@
-import React, { useState } from 'react'
-import { toast } from 'react-toastify'
-import { registerUserApi } from '../../api/api'
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import { registerUserApi } from '../../api/api';
+import './Register.css'; // Import the CSS file for styling
 
-const Register = () => {
+const RegisterPage = () => {
+    // State for form fields
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-  // Make a useState for 5 Fields
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
+    // State for error messages
+    const [firstNameError, setFirstNameError] = useState('');
+    const [lastNameError, setLastNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+    // Function to handle form submission
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-  // Use State for Error Message
-  const [firstNameError, setFirstNameError] = useState('')
-  const [lastNameError, setLastNameError] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
-  const [confirmPasswordError, setConfirmPasswordError] = useState('')
+        // Validate form fields
+        const isValid = validateForm();
+        if (!isValid) return;
 
-  // Make a each function for changing the value
-  const handleFirstname = (e) => {
-    setFirstName(e.target.value);
-  }
+        // Make API request to register user
+        const userData = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password
+        };
 
-  const handleLastname = (e) => {
-    setLastName(e.target.value);
-  }
+        registerUserApi(userData)
+            .then((res) => {
+                if (res.data.success === false) {
+                    toast.error(res.data.message);
+                } else {
+                    toast.success(res.data.message);
+                }
+            })
+            .catch((error) => {
+                console.error('Error registering user:', error);
+                toast.error('An error occurred while registering. Please try again.');
+            });
+    };
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  }
+    // Function to validate form fields
+    const validateForm = () => {
+        let isValid = true;
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  }
+        if (!firstName.trim()) {
+            setFirstNameError('First name is required');
+            isValid = false;
+        } else {
+            setFirstNameError('');
+        }
 
-  const handleConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value);
-  }
+        if (!lastName.trim()) {
+            setLastNameError('Last name is required');
+            isValid = false;
+        } else {
+            setLastNameError('');
+        }
 
-  // validation
-  var validate = () => {
-    var isValid = true;
+        if (!email.trim()) {
+            setEmailError('Email is required');
+            isValid = false;
+        } else {
+            setEmailError('');
+        }
 
-    // validate the firstname
-    if (firstName.trim() === '') {
-      setFirstNameError("Firstname is Required!")
-      isValid = false
-    }
+        if (!password.trim()) {
+            setPasswordError('Password is required');
+            isValid = false;
+        } else {
+            setPasswordError('');
+        }
 
-    if (lastName.trim() === '') {
-      setLastNameError("Lastname is Required!")
-      isValid = false
-    }
+        if (!confirmPassword.trim()) {
+            setConfirmPasswordError('Confirm password is required');
+            isValid = false;
+        } else if (password !== confirmPassword) {
+            setConfirmPasswordError('Passwords do not match');
+            isValid = false;
+        } else {
+            setConfirmPasswordError('');
+        }
 
-    if (email.trim() === '') {
-      setEmailError("Email is Required!")
-      isValid = false
-    }
+        return isValid;
+    };
 
-    if (password.trim() === '') {
-      setPasswordError("Password is Required!")
-      isValid = false
-    }
+    return (
+        <div className="register-container">
+           
+            <form className="register-form">
+            <h1>Register</h1>
+                <input
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                />
+                {firstNameError && <p className="error">{firstNameError}</p>}
+                <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                />
+                {lastNameError && <p className="error">{lastNameError}</p>}
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                {emailError && <p className="error">{emailError}</p>}
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                {passwordError && <p className="error">{passwordError}</p>}
+                <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                {confirmPasswordError && <p className="error">{confirmPasswordError}</p>}
+                <button onClick={handleSubmit}>Create Account</button>
+            </form>
+        </div>
+    );
+};
 
-    if (confirmPassword.trim() === '') {
-      setConfirmPasswordError("Confirm Password is Required!")
-      isValid = false
-    }
-
-    if (confirmPassword.trim() !== password.trim()) {
-      setConfirmPasswordError("Password and Confirm Password doesn't match!")
-      isValid = false;
-    }
-
-    return isValid;
-
-  }
-
-  // Submit button Function
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    // validate
-    var isValidated = validate();
-    if (!isValidated) {
-      return
-    }
-
-    //Sending Request to the api
-
-    // Making json object
-    const data = {
-      "firstName": firstName,
-      "lastName": lastName,
-      "email": email,
-      "password": password,
-    }
-
-    registerUserApi(data).then((res) => {
-
-      //Recieved data : success, massage
-      if (res.data.success == false) {
-        toast.error(res.data.message)
-      } else {
-        toast.success(res.data.message)
-      }
-
-
-    })
-
-  }
-
-  return (
-    <>
-      <div className='container mt-2'>
-        <h1>Create an Account!</h1>
-
-        <form className='w-50'>
-          <label>Firstname : {firstName}</label>
-          <input onChange={handleFirstname} type="text" className='form-control' placeholder='Enter your firstname' />
-
-          {
-            firstNameError && <p className='text-danger'>{firstNameError}</p>
-          }
-
-          <label className='mt-2'>Lastname</label>
-          <input onChange={handleLastname} type="text" className='form-control' placeholder='Enter your lastname' />
-
-          {
-            lastNameError && <p className='text-danger'>{lastNameError}</p>
-          }
-
-          <label className='mt-2'>Email</label>
-          <input onChange={handleEmail} type="text" className='form-control' placeholder='Enter your email' />
-
-          {
-            emailError && <p className='text-danger'>{emailError}</p>
-          }
-
-          <label className='mt-2'>Password</label>
-          <input onChange={handlePassword} type="text" className='form-control' placeholder='Enter your password' />
-
-          {
-            passwordError && <p className='text-danger'>{passwordError}</p>
-          }
-
-          <label className='mt-2'>Confirm Password</label>
-          <input onChange={handleConfirmPassword} type="text" className='form-control' placeholder='Enter your confirm password' />
-
-          {
-            confirmPasswordError && <p className='text-danger'>{confirmPasswordError}</p>
-          }
-
-          <button onClick={handleSubmit} className='btn btn-dark mt-2 w-100'>Create an Account!</button>
-
-        </form>
-
-
-      </div>
-
-    </>
-  )
-}
-
-export default Register
-
-// Step 1 : Make Complete UI of Register Page (Fields, Button, etc)
-// step 2 : Input (Type) - Make a state
-// Step 3 : OnChange - Set the value to the state
-
-
-
-// https://codeshare.io/VNKEp8
-
-
-//Make a login page
-//Make a path in App.js
-//Make a frontend with email & Password
-//Make a use State
+export default RegisterPage;
