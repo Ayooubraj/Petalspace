@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { registerUserApi } from '../../api/api';
 import './Register.css'; // Import the CSS file for styling
+import logo from '../../assets/images/logo2.png'; // Import the image
 
 const RegisterPage = () => {
     // State for form fields
@@ -97,6 +98,7 @@ const RegisterPage = () => {
         <div className="register-container">
            
             <form className="register-form">
+            <img src={logo} alt="Logo" className="login-logo" /> 
             <h1>Register</h1>
                 <input
                     type="text"
