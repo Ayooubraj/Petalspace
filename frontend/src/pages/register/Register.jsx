@@ -136,6 +136,8 @@ const RegisterPage = () => {
                 {confirmPasswordError && <p className="error">{confirmPasswordError}</p>}
                 <button onClick={handleSubmit}>Create Account</button>
             </form>
+            <p>Uff already have an account? <a href="/Login">Login</a></p>
+
         </div>
     );
 };
