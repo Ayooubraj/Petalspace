@@ -67,6 +67,7 @@ const Loginpage = () => {
                 {passwordError && <p className="text-danger">{passwordError}</p>}
                 <button onClick={handleLogin} className="btn btn-success">Login</button>
             </form>
+            <p>Don't have an account? <a href="/Register">Sign Up</a></p>
         </div>
     );
 }

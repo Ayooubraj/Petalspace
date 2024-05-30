@@ -98,7 +98,6 @@ const RegisterPage = () => {
         <div className="register-container">
            
             <form className="register-form">
-            <img src={logo} alt="Logo" className="login-logo" /> 
             <h1>Register</h1>
                 <input
                     type="text"
